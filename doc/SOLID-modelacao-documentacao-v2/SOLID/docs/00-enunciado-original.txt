@@ -1,0 +1,323 @@
+DEPARTAMENTO DE
+ENGENHARIA INFORMÁTICA
+www.dei.estg.ipleiria.pt
+Integração de Sistemas
+3º ano • 1 º semestre • Ano Letivo 2026/2027
+Project
+SOLID: Service-Oriented Layer for Interoperable Data
+1. Context
+Modern cities, industries, and organizations increasingly rely on networks of connected devices to collect and exchange
+information. Environmental sensors, smart energy meters, intelligent transportation systems, and monitoring devices
+continuously generate large volumes of data that can be used to support better decision making and create innovative
+digital services.
+However, many IoT solutions are still based on proprietary technologies and vendor-specific platforms. Data is often
+stored in isolated systems with incompatible interfaces, making the integration of applications and services a complex
+and expensive process. This phenomenon is commonly known as the "Silo of Things" [1], where valuable information
+remains locked within individual systems instead of being shared and reused across different applications.
+Imagine a smart city where parking sensors, weather stations, public transportation systems, and energy monitoring
+platforms all generate useful data but cannot easily communicate with one another. Developing new services in such
+an environment often requires custom integrations for each platform, significantly increasing development effort and
+reducing scalability.
+In this project, students will assume the role of software architects responsible for designing and implementing SOLID
+(Service-Oriented Layer for Interoperable Data), a middleware platform that promotes interoperability between
+heterogeneous systems through a unified service-oriented architecture.
+The aim is to create a platform in which applications interact with resources through standardized interfaces,
+independently of the underlying devices, communication technologies, or application domains. By providing a common
+model for data access, data publication, and event notification, the platform facilitates the development of reusable
+services and supports open data principles.
+2. Technical details
+The proposed solution must be implemented using .NET 10 and should follow modern distributed systems practices.
+The middleware will combine Web technologies and messaging mechanisms to support both synchronous and
+asynchronous communication patterns. The SOLID middleware should be exposed through a RESTful Web Service API.
+More concretely, the following resources, features, and capabilities must be implemented.
+The SOLID middleware URL must always start by the following structure:
+http://<domain:port>/api/solid/...
+It must manage resources according to the hierarchical model illustrated below. It supports multiple applications. Each
+application may have one or more channels, and each channel may have zero or more data-records and subscriptions. 
+2
+Integração de Sistemas – Enunciado do Projeto
+Resource nesting is limited to a maximum depth of three levels:
+application (1..N)
+ ├──channel (1..N)
+ │ ├── data-record (0..N)
+ │ ├── subscription (0..N)
+ ├──channel
+ │ ├── data-record
+ │ ├── subscription
+application
+ ├──channel (1..N)
+ │ ├── data-record (0..N)
+ │ ├── subscription (0..N)
+ ├──channel
+ │ ├── data-record
+ │ ├── subscription
+ ...
+Next, the list of properties for each resource type <res-type> is presented. It is mandatory to implement the middleware
+using the exact property names presented below. Otherwise, existing applications will not be able to interact with the
+middleware correctly, which may negatively impact on students’ assessment.
+Additional properties may be introduced to support data storage or hierarchy, resource relationships, or internal
+middleware operations. However, such properties must be hidden from the user/client perspective. The following table
+presents the official and well-known properties.
+Resource Type
+<res-type> values
+Resource Properties
+application res-type <string>; resource-name <string>; resource-desc <string>; dt-creation
+<string>;
+channel res-type <string>; resource-name <string>; resource-desc <string>; dt-creation
+<string>;
+data-record res-type <string>; resource-name <string>; content-type <string>; content
+<string>; dt-creation <string>; dt-expiration <string>;
+subscription res-type <string>; resource-name <string>; evt <int>; endpoint <string>; dtcreation <string>; dt-expiration <string>;
+The res-type property identifies the type of resource being represented. Valid values include “application”, “channel”,
+“data-record”, and “subscription”.
+An application resource stands for a real-world application registered in the middleware. The middleware must support
+multiple applications.
+A channel resource represents a logical data channel that groups related resources. Each application may contain one
+or more channels. A channel may contain data-records and subscriptions.
+A data-record represents a single data item stored within a specific application channel. The content-type property
+specifies the media type of the stored content (e.g. “application/xml”,”application/json”, or “text/plain”).
+A subscription resource represents a notification rule associated with a channel. Notifications are triggered whenever:
+• a new data-record is created in the channel;
+• an existing data-record is deleted from the channel.
+Subscriptions enable external systems to react automatically to changes occurring within the middleware.
+Each resource must be assigned a unique resource-name to ensure proper identification and to avoid naming conflicts
+within the middleware.
+3
+Integração de Sistemas – Enunciado do Projeto
+2.1. Middleware Behavior
+The SOLID middleware should be exposed through a RESTful Web Service API. Clients must be able to create, retrieve,
+update, delete, and discover resources using standard HTTP methods.
+The data-record and subscription resource types are immutable once created and therefore do not support the
+update operation. Any modification requires the resource to be deleted and recreated.
+For creation and discovery operations, the request URI shall identify the parent resource. However, for retrieve and
+delete operations, the request URI shall identify the target resource name.
+For a channel resource, a specific addressing is required because a channel may contain two different types of child
+resources: data-records and subscriptions. Direct child resource paths are reserved for data-records, whereas
+subscriptions must be addressed through a virtual (non-persistent) resource node named “subs”.
+For example, consider a channel named channel-p containing:
+• a data-record named dr-a;
+• a subscription named sub-x.
+The corresponding resource URIs to retrieve and delete the resource are:
+GET /api/solid/app-a/channel-p/dr-a
+DELETE /api/solid/app-a/channel-p/dr-a
+GET /api/solid/app-a/channel-p/subs/sub-x
+DELETE /api/solid/app-a/channel-p/subs/sub-x
+...
+To create a channel under an existing application:
+POST /api/solid/app-a
+...
+To create a data-record and a subscription under an existing channel:
+POST /api/solid/app-a/channel-p
+...
+In addition, whenever a discover operation returns one or more subscription resources, the resource path associated
+with each returned subscription shall include the virtual node subs. This ensures that subscriptions can be uniquely
+identified and addressed using the same URI structure required by retrieve and delete operations.
+A subscription resource defines a notification rule associated with a channel. In addition to the resource-name
+property, a subscription shall include:
+• evt: specifies the event types that trigger notifications. Supported values are creation, deletion, or both;
+• endpoint: specifies the destination where notifications shall be delivered.
+Whenever a subscribed event is triggered, the notification message shall include:
+• the type of event that occurred (creation or deletion);
+• the affected data-record resource;
+• the complete path of the affected resource.
+The middleware shall support notification delivery through both HTTP and MQTT endpoints. For HTTP notifications, the
+endpoint shall correspond to a valid HTTP URL. For MQTT notifications, the endpoint shall correspond to an MQTT topic.
+The topic used to publish the notification should match the full path of the source channel. For example:
+api/solid/app-xx/channel-yy.
+When creating or updating a resource via the SOLID middleware, the system shall return the appropriate HTTP status
+code and the complete representation of the affected resource. This requirement is particularly important when
+resource names are automatically generated to ensure uniqueness. In such cases, the client must be informed of the
+exact resource-name and all associated properties assigned to the newly created or updated resource.
+The SOLID middleware shall persist all resources and resource data in a database. Internal database entities may
+contain additional attributes required for storage, indexing, relationships, or system management. However, these
+internal attributes shall remain hidden from API consumers. The REST API must expose only the resource properties
+defined in this specification.
+4
+Integração de Sistemas – Enunciado do Projeto
+All data exchanged through the REST API must use the JSON format. The content property of a data-record resource
+may contain data formatted as JSON, XML or plain text, according to its content-type property.
+All REST API operations mustidentify resources using their unique resource-name values. Resource identifiers generated
+by the persistence layer (e.g., database IDs) must not be exposed or used in resource URIs.
+2.2. Discovery Operation
+The discovery operation shall be performed using the HTTP GET method together with the custom HTTP header:
+solid-discovery: <res-type>
+where <res-type> can be one of the following values: application, channel, data-record, subscription.
+The discovery operation shall return a JSON array containing the paths of all resources matching the requested resource
+type and located within the scope of the target URI.
+For example, the request:
+GET http://<domain:9876>/api/solid/app-a
+solid-discovery: data-record
+could return JSON:
+["/api/solid/app-a/channel1/dr1","/api/solid/app-a/channel1/dr2","/api/solid/appa/channel2/dr1"]
+When the discovery operation returns subscription resources, each returned path shall include the virtual node subs.
+For example:
+GET http://<domain:9876>/api/solid/app-a
+SOLID-Discovery: subscription
+Could return JSON:
+["/api/solid/app-a/channel1/subs/sub1","/api/solid/app-a/channel1/subs/sub2", "/api/solid/appa/channel2/subs/sub1"]
+This convention ensures that subscriptions can be uniquely identified and addressed using the same URI structure
+employed by the retrieve and delete operations.
+2.3. Standard Retrieval vs Discovery Operations
+To clarify the difference between a standard retrieve operation and a discovery operation (solid-discovery), consider
+the following examples:
+A standard GET request returns the representation of the resource identified by the target URI.
+In contrast, a discovery operation returns a list of resource paths matching a given resource type within the scope of
+the target URI. Discovery requests are identified by the presence of the custom HTTP header:
+Example of endpoints and solid-discovery operation using cURL -X
+GET -H “content-type: application/json”
+http://<domain: port>/api/solid/app-a
+returns the properties of the “app-a”
+application resource.
+GET -H “content-type: application/json”
+http://<domain:port>/api/solid/app-a/channel1/data1
+returns the representation of the “data1” datarecord resource.
+GET -H “content-type: application/json” -H “solid-discovery:
+application” http://<domain:port>/api/solid
+returns the list of paths to all application
+resources contained within the SOLID
+middleware (recursively).
+GET -H “content-type: application/json” -H “solid-discovery:
+channel” http://<domain:port>/api/solid/app-a
+returns the list of paths to all channel resources
+belonging to “app-a” (recursively).
+GET -H “content-type: application/json” -H “solid-discovery:
+data-record” http://<domain:port>/api/solid/app-a
+returns the list of paths to all data- record
+resources belonging to “app-a” (recursively). 
+5
+Integração de Sistemas – Enunciado do Projeto
+GET -H “content-type: application/json” -H “solid-discovery:
+data-record” http://<domain:port>/api/solid
+returns the list of paths to all data- record
+resources contained within the SOLID
+middleware (recursively).
+……the same principles apply to all other valid resource types and URI paths supported by the platform.
+Discovery operations performed on resource paths that cannot logically contain the requested resource type shall
+return an empty list and the HTTP status code 200 OK. For example, a data-record resource cannot contain other datarecords as child resources. Therefore, a discovery request targeting data-records on a URI that already identifies a datarecord shall return an empty list:
+The middleware shall not support a generic “Get all” operation. Resource enumeration must be performed exclusively
+through the discovery mechanism using the solid-discovery HTTP header.
+2.4. Final Project Requirements
+The following additional requirements must be respected:
+• Each resource stored in the database must include a creation timestamp (dt-creation) represented using the ISO
+date format, e.g., 2024-09-25T12:34:23. The value of this property shall be automatically generated and assigned
+by the middleware when the resource is created.
+• The evt property of a subscription must support only the values 1 for creation event or 2 for deletion event.
+• For MQTT-based subscriptions, the endpoint property must store the MQTT broker endpoint. The MQTT topic
+should be determined at runtime based on the source channel path.
+• For HTTP-based subscriptions, the endpoint property must point/store the URL of an HTTP endpoint capable of
+receiving POST requests.
+• Every resource must have a unique resource-name within its parent resource scope. If a create request does not
+provide a resource-name, or if the provided name is not unique, the middleware must automatically generate a
+unique resource name and return it in the response payload.
+• During the creation of subscription and data-record resources, the client may specify an ISO 8601 date-time value
+in the dt-expirationproperty or leave the property empty. When a valid expiration date is specified, the middleware
+shall automatically remove the corresponding resource once the current date and time exceeds the value of dtexpiration. An empty dt-expiration value indicates that the resource has no expiration date and shall not be
+automatically deleted.
+• The res-type property, included in the HTTP request body is mandatory and identifies the type of resource being
+created or manipulated. The middleware shall support the following values: application, channel, data-record, or
+subscription.
+• The SOLID middleware shall be configured to listen on port 8765.
+• The submitted SQLite database shall contain, at a minimum, the following resources:
+o Application with resource-name = "app1".
+o Channel with resource-name = "channel1", child of "app1".
+o Data-record with resource-name = "dr1", child of "channel1".
+o Subscription with resource-name = "sub1", child of "channel1".
+Students may freely choose the values of the remaining resource properties.
+The SOLID middleware (RESTful API) must be fully documented using Swagger/OpenAPI. The quality, completeness,
+and accuracy of the API documentation will be considered during the assessment process.
+The implementation of the Students' Implementation Scenario described in Section 4 is mandatory and constitutes
+an integral part of the project assessment.
+6
+Integração de Sistemas – Enunciado do Projeto
+SOLID Middleware in Action - Implementation Use Cases
+The second part of the project focuses on the development of an application layer that interacts with the SOLID
+middleware. The goal is to demonstrate the practical use of the platform and validate its support for interoperable
+applications.
+3. Example Use Case
+Consider a smart home scenario where an Internet-connected light bulb (App A) can be remotely controlled through a
+mobile application (App B). The light bulb is assumed to include an embedded computing device, such as a Raspberry
+Pi Zero or any equivalent single-board computer.
+When the light bulb is connected to the system for the first time, it registers itself in the middleware by creating an
+application resource named lighting. It also creates a channel resource named light-bulb, which will be used to receive
+state change requests.
+Similarly, when the mobile application is executed for the first time, it registers itself by creating an application resource
+named switch.
+To receive control commands, the light bulb creates a subscription on the light-bulb channel for creation events.
+Whenever the mobile application wants to change the state of the light bulb (e.g., turn it on or off), it simply creates a
+new data-record in the light-bulb channel.
+The creation of this data-record triggers a notification through the subscription mechanism. Upon receiving the
+notification, the light bulb retrieves the newly created data-record, interprets its content, and updates its state
+accordingly.
+The interaction flow is illustrated below:
+Figure 1 - Generic architecture of a sample testing application scenario
+7
+Integração de Sistemas – Enunciado do Projeto
+4. Students' Implementation Scenario
+Each group must implement the following use case representing an automatic irrigation system.
+The system must consist of two independent simulation applications: Moisture Sensor Application and Water Valve
+Application.
+The Moisture Sensor Application should simulate a soil moisture sensor by generating humidity measurements every
+second. Each measurement must be represented by a value between 0% and 100%, inclusive.
+The Water Valve Application should simulate an irrigation valve and allow the user to configure a humidity threshold.
+The applications shall interact exclusively through the SOLID middleware.
+The Moisture Sensor Application must periodically publish humidity measurements as data-records in an appropriate
+channel. The Water Valve Application must subscribe to notifications generated by the middleware and react whenever
+a new humidity measurement becomes available.
+The Water Valve Application must apply the following decision logic:
+• If the measured humidity is below the configured threshold, the valve will be switched ON.
+• If the measured humidity is greater than or equal to the configured threshold, the valve will be switched OFF.
+All notifications received by the Water Valve Application must be persisted in an XML file.
+The XML file must be validated against an XML Schema Definition (XSD) provided by the development team. Notifications
+that do not conform to the schema will be considered invalid.
+The solution shall be event-driven. Therefore, busy-waiting, continuous polling loops, or periodic resource scanning
+mechanisms shall not be used to detect new measurements. The Water Valve Application must rely exclusively on the
+notification capabilities provided by the SOLID middleware.
+5. Project assessment
+The project will be evaluated according to the following criteria:
+Criterion % [0-100]
+Middleware 60%
+ CRUD+discovery operations for the application resource 15%
+ CRUD+ discovery operations for the channel resource 15%
+ CRUD+ discovery operations for the data-record resource 15%
+ CRUD+ discovery operations for the subscription resource 15%
+ Resources auto removal using dt-expiration property 5%
+Testing application (improved implementation scenario) 20%
+Project report (among other information, should include a section with complete cURL commands
+for CRUD+Discovery operations for all SOLID resources)
+15%
+6. Guidelines
+Project groups shall consist of 4 students. Group members may belong to different practical classes.
+The name and student numbers of all group members must be submitted through the course page (http://ead.ipleiria.pt
+- Moodle) by the end of November.
+The project must be submitted by the date specified in the official assessment calendar.
+A mandatory project discussion (individual practical exam about the project) will be held after the project submission
+date. The schedule will be published in the course assessment calendar.
+The project must be developed exclusively using the technologies, frameworks, and methodologies covered during
+the practical classes.
+8
+Integração de Sistemas – Enunciado do Projeto
+In addition to the complete source code of the solution, each group must submit a written reportfollowing the template
+made available on the course web page. The report may include appendices whenever deemed relevant.
+Students are strongly encouraged to properly document and identify their source code using file headers and meaningful
+comments. Since this is an evolutionary project, outstanding solutions may be selected as a starting point for future
+editions of the course. Therefore, code readability, organization, and maintainability are important aspects of the project
+deliverables.
+7. Delivery
+The project delivery must be done on the course web page (http://ead.ipleiria.pt) where students must submit a link to
+an external ZIP file (or .7z file) with all the project material. The link to the project delivery should use an external cloud
+service, e.g., OneDrive, Dropbox (shared file), WeTransfer, etc.
+Students must ensure that all required project materials are included in a single ZIP (.zip) or 7-Zip (.7z) archive at the
+time of submission. The archive shall follow the directory structure specified below:
+• Text file (identification.txt) with all the information about the group number and team members (number,
+name, and e-mail) and course name, etc.
+• Folder Project: all the source code must be included in this folder. The source code of the project must include
+source files and other resources (files, executables, dll’s, etc.)
+• Folder Report: the written report in PDF/.docx format. Don’t forget that at the end of the report (appendix) it is
+mandatory to identify which features each team member has implemented.
+• Folder Other: XML/XSD files, and other files required by the project that were used by the team members but
+were not included in the previous folders.
+• Folder Data: A SQLite database file (.db) containing the sample data, as well as all SQL scripts (.sql) required to
+recreate the database schema and populate it with the same sample data.
+References
+[1] Mohapatra, S. K., Bhuyan, J. N., Asundi, P., & Singh, A. (2016). A Solution Framework for Managing Internet of Things (IOT).
+International journal of Computer Networks & Communications.—2016.—8.—P, 73-87.

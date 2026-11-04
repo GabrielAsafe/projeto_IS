@@ -1,0 +1,1 @@
+mosquitto_sub -h localhost -p 1883   -t 'api/solid/app1/channel1' -v

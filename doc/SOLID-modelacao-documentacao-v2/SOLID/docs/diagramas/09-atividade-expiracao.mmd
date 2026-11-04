@@ -1,0 +1,12 @@
+flowchart TD
+    Wake([BackgroundService / PeriodicTimer]) --> Find[Consultar records/subscriptions expirados]
+    Find --> Any{Ha recursos com expiry anterior a agora?}
+    Any -->|Nao| Wait([Aguardar ciclo seguinte])
+    Any -->|Sim| Remove[Remover recursos numa transacao]
+    Remove --> Type{Era data-record?}
+    Type -->|Sim| Policy{Politica Q-05 validada?}
+    Type -->|Nao| Wait
+    Policy -->|Remocao automatica notifica| Event[Publicar evento deletion pos commit]
+    Policy -->|Sem obrigacao confirmada| Record[Registar decisao + testar]
+    Event --> Wait
+    Record --> Wait

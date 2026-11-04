@@ -1,0 +1,29 @@
+classDiagram
+    direction TB
+    class Application {
+        +string ResourceName
+        +string ResourceDesc
+        +DateTime CreatedAt
+    }
+    class Channel {
+        +string ResourceName
+        +string ResourceDesc
+        +DateTime CreatedAt
+    }
+    class DataRecord {
+        +string ResourceName
+        +string ContentType
+        +string Content
+        +DateTime CreatedAt
+        +DateTime? ExpiresAt
+    }
+    class Subscription {
+        +string ResourceName
+        +int EventType
+        +string Endpoint
+        +DateTime CreatedAt
+        +DateTime? ExpiresAt
+    }
+    Application "1" *-- "0..*" Channel : channels
+    Channel "1" *-- "0..*" DataRecord : records
+    Channel "1" *-- "0..*" Subscription : subscriptions

@@ -1,0 +1,31 @@
+// applications	id PK, resource_name único, resource_desc, created_at	res-type, resource-name, resource-desc, dt-creation
+// channels	id PK, application_id FK, resource_name, resource_desc, created_at	os mesmos do tipo application
+// data_records	id PK, channel_id FK, resource_name, content_type, content, created_at, expires_at	res-type, resource-name, content-type, content, dt-creation, dt-expiration
+// subscriptions	id PK, channel_id FK, resource_name, evt, endpoint, created_at, expires_at	res-type, resource-name, evt, endpoint, dt-creation, dt-expiration
+//application and channel
+{
+"res-type":"",
+"resource-name":"",
+"resource-desc":"",
+"dt-creation":""
+}
+
+//data_records
+{
+    "res-type":"",
+    "resource-name":"",
+    "content-type":"",
+    "content":"",
+    "dt-creation":"",
+    "dt-expiration":""
+}
+
+//subscription
+{
+    "res-type":"",
+    "resource-name":"",
+    "evt":,
+    "endpoint":"",
+    "dt-creation":"",
+    "dt-expiration":""
+}

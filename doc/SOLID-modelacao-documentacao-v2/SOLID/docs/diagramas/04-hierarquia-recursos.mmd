@@ -1,0 +1,7 @@
+flowchart TD
+    Root["/api/solid"] --> App["/app1 — application"]
+    App --> Ch["/app1/channel1 — channel"]
+    Ch --> Rec["/app1/channel1/dr1 — data-record"]
+    Ch -.-> SubNode["/app1/channel1/subs — virtual"]
+    SubNode --> Sub["/app1/channel1/subs/sub1 — subscription"]
+    style SubNode stroke-dasharray: 5 5
