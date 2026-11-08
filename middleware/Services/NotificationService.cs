@@ -77,9 +77,9 @@ public class NotificationService
 
                 caso o middleware deixe de funcionar, um cancellation token não deixa outros serviços aarrados na rede a espera de resposta
                 */
-                if (Uri.TryCreate(endpoint, UriKind.Absolute, out var uri) && (uri.Scheme == "http" || uri.Scheme == "https"))
+                if (Uri.TryCreate(endpoint, UriKind.Absolute, out var uri)
+                    && (uri.Scheme == "http" || uri.Scheme == "https"))
                 {
-                    // 4. Enviar notificação HTTP
                     using var response = await http.PostAsJsonAsync(
                         uri,
                         notification,
@@ -93,8 +93,11 @@ public class NotificationService
                             response.StatusCode
                         );
                     }
-                }else if (uri != null && uri.Scheme == "mqtt"){
-                if (publishedBrokers.Add(uri.AbsoluteUri)){
+                }
+                else if (uri != null && uri.Scheme == "mqtt")
+                {
+                    if (publishedBrokers.Add(uri.AbsoluteUri))
+                    {
                         await mqtt.PublishAsync(
                             endpoint,
                             topic,
@@ -108,11 +111,13 @@ public class NotificationService
                         );
                     }
                 }
-                                    
-                logger.LogWarning(
-                    "Protocol not implemented: {Endpoint}",
-                    endpoint
-                );
+                else
+                {
+                    logger.LogWarning(
+                        "Protocol not implemented: {Endpoint}",
+                        endpoint
+                    );
+                }
             }
             
             catch (OperationCanceledException)

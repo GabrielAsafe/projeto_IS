@@ -11,7 +11,7 @@ public class DataRecord
     public int ChannelId { get; set; }
 
     [JsonPropertyName("res-type")]
-    public string ResType { get; set; } = "data-record";
+    public string ResType => "data-record";
 
     [JsonPropertyName("resource-name")]
     public string ResourceName { get; set; } = "";
