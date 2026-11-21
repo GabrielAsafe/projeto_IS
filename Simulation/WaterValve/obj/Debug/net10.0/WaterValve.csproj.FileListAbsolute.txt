@@ -1,0 +1,68 @@
+/home/gabriel/Desktop/projetos/isGay/Simulation/WaterValve/bin/Debug/net10.0/appsettings.Development.json
+/home/gabriel/Desktop/projetos/isGay/Simulation/WaterValve/bin/Debug/net10.0/appsettings.json
+/home/gabriel/Desktop/projetos/isGay/Simulation/WaterValve/bin/Debug/net10.0/WaterValve.staticwebassets.endpoints.json
+/home/gabriel/Desktop/projetos/isGay/Simulation/WaterValve/bin/Debug/net10.0/WaterValve
+/home/gabriel/Desktop/projetos/isGay/Simulation/WaterValve/bin/Debug/net10.0/WaterValve.deps.json
+/home/gabriel/Desktop/projetos/isGay/Simulation/WaterValve/bin/Debug/net10.0/WaterValve.runtimeconfig.json
+/home/gabriel/Desktop/projetos/isGay/Simulation/WaterValve/bin/Debug/net10.0/WaterValve.dll
+/home/gabriel/Desktop/projetos/isGay/Simulation/WaterValve/bin/Debug/net10.0/WaterValve.pdb
+/home/gabriel/Desktop/projetos/isGay/Simulation/WaterValve/bin/Debug/net10.0/Microsoft.AspNetCore.OpenApi.dll
+/home/gabriel/Desktop/projetos/isGay/Simulation/WaterValve/bin/Debug/net10.0/Microsoft.OpenApi.dll
+/home/gabriel/Desktop/projetos/isGay/Simulation/WaterValve/obj/Debug/net10.0/WaterValve.csproj.AssemblyReference.cache
+/home/gabriel/Desktop/projetos/isGay/Simulation/WaterValve/obj/Debug/net10.0/rpswa.dswa.cache.json
+/home/gabriel/Desktop/projetos/isGay/Simulation/WaterValve/obj/Debug/net10.0/WaterValve.GeneratedMSBuildEditorConfig.editorconfig
+/home/gabriel/Desktop/projetos/isGay/Simulation/WaterValve/obj/Debug/net10.0/WaterValve.AssemblyInfoInputs.cache
+/home/gabriel/Desktop/projetos/isGay/Simulation/WaterValve/obj/Debug/net10.0/WaterValve.AssemblyInfo.cs
+/home/gabriel/Desktop/projetos/isGay/Simulation/WaterValve/obj/Debug/net10.0/WaterValve.csproj.CoreCompileInputs.cache
+/home/gabriel/Desktop/projetos/isGay/Simulation/WaterValve/obj/Debug/net10.0/WaterValve.MvcApplicationPartsAssemblyInfo.cs
+/home/gabriel/Desktop/projetos/isGay/Simulation/WaterValve/obj/Debug/net10.0/WaterValve.MvcApplicationPartsAssemblyInfo.cache
+/home/gabriel/Desktop/projetos/isGay/Simulation/WaterValve/obj/Debug/net10.0/WaterValve.sourcelink.json
+/home/gabriel/Desktop/projetos/isGay/Simulation/WaterValve/obj/Debug/net10.0/rjimswa.dswa.cache.json
+/home/gabriel/Desktop/projetos/isGay/Simulation/WaterValve/obj/Debug/net10.0/rjsmrazor.dswa.cache.json
+/home/gabriel/Desktop/projetos/isGay/Simulation/WaterValve/obj/Debug/net10.0/rjsmcshtml.dswa.cache.json
+/home/gabriel/Desktop/projetos/isGay/Simulation/WaterValve/obj/Debug/net10.0/scopedcss/bundle/WaterValve.styles.css
+/home/gabriel/Desktop/projetos/isGay/Simulation/WaterValve/obj/Debug/net10.0/staticwebassets.build.json
+/home/gabriel/Desktop/projetos/isGay/Simulation/WaterValve/obj/Debug/net10.0/staticwebassets.build.json.cache
+/home/gabriel/Desktop/projetos/isGay/Simulation/WaterValve/obj/Debug/net10.0/staticwebassets.development.json
+/home/gabriel/Desktop/projetos/isGay/Simulation/WaterValve/obj/Debug/net10.0/staticwebassets.build.endpoints.json
+/home/gabriel/Desktop/projetos/isGay/Simulation/WaterValve/obj/Debug/net10.0/swae.build.ex.cache
+/home/gabriel/Desktop/projetos/isGay/Simulation/WaterValve/obj/Debug/net10.0/WaterValve.csproj.Up2Date
+/home/gabriel/Desktop/projetos/isGay/Simulation/WaterValve/obj/Debug/net10.0/WaterValve.dll
+/home/gabriel/Desktop/projetos/isGay/Simulation/WaterValve/obj/Debug/net10.0/refint/WaterValve.dll
+/home/gabriel/Desktop/projetos/isGay/Simulation/WaterValve/obj/Debug/net10.0/WaterValve.pdb
+/home/gabriel/Desktop/projetos/isGay/Simulation/WaterValve/obj/Debug/net10.0/WaterValve.genruntimeconfig.cache
+/home/gabriel/Desktop/projetos/isGay/Simulation/WaterValve/obj/Debug/net10.0/ref/WaterValve.dll
+C:\Users\muska\Desktop\pt koulu\SI\projekti\for mickey\isGay\Simulation\WaterValve\bin\Debug\net10.0\appsettings.Development.json
+C:\Users\muska\Desktop\pt koulu\SI\projekti\for mickey\isGay\Simulation\WaterValve\bin\Debug\net10.0\appsettings.json
+C:\Users\muska\Desktop\pt koulu\SI\projekti\for mickey\isGay\Simulation\WaterValve\bin\Debug\net10.0\WaterValve.staticwebassets.endpoints.json
+C:\Users\muska\Desktop\pt koulu\SI\projekti\for mickey\isGay\Simulation\WaterValve\bin\Debug\net10.0\WaterValve.exe
+C:\Users\muska\Desktop\pt koulu\SI\projekti\for mickey\isGay\Simulation\WaterValve\bin\Debug\net10.0\WaterValve.deps.json
+C:\Users\muska\Desktop\pt koulu\SI\projekti\for mickey\isGay\Simulation\WaterValve\bin\Debug\net10.0\WaterValve.runtimeconfig.json
+C:\Users\muska\Desktop\pt koulu\SI\projekti\for mickey\isGay\Simulation\WaterValve\bin\Debug\net10.0\WaterValve.dll
+C:\Users\muska\Desktop\pt koulu\SI\projekti\for mickey\isGay\Simulation\WaterValve\bin\Debug\net10.0\WaterValve.pdb
+C:\Users\muska\Desktop\pt koulu\SI\projekti\for mickey\isGay\Simulation\WaterValve\bin\Debug\net10.0\Microsoft.AspNetCore.OpenApi.dll
+C:\Users\muska\Desktop\pt koulu\SI\projekti\for mickey\isGay\Simulation\WaterValve\bin\Debug\net10.0\Microsoft.OpenApi.dll
+C:\Users\muska\Desktop\pt koulu\SI\projekti\for mickey\isGay\Simulation\WaterValve\obj\Debug\net10.0\WaterValve.csproj.AssemblyReference.cache
+C:\Users\muska\Desktop\pt koulu\SI\projekti\for mickey\isGay\Simulation\WaterValve\obj\Debug\net10.0\rpswa.dswa.cache.json
+C:\Users\muska\Desktop\pt koulu\SI\projekti\for mickey\isGay\Simulation\WaterValve\obj\Debug\net10.0\WaterValve.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\muska\Desktop\pt koulu\SI\projekti\for mickey\isGay\Simulation\WaterValve\obj\Debug\net10.0\WaterValve.AssemblyInfoInputs.cache
+C:\Users\muska\Desktop\pt koulu\SI\projekti\for mickey\isGay\Simulation\WaterValve\obj\Debug\net10.0\WaterValve.AssemblyInfo.cs
+C:\Users\muska\Desktop\pt koulu\SI\projekti\for mickey\isGay\Simulation\WaterValve\obj\Debug\net10.0\WaterValve.csproj.CoreCompileInputs.cache
+C:\Users\muska\Desktop\pt koulu\SI\projekti\for mickey\isGay\Simulation\WaterValve\obj\Debug\net10.0\WaterValve.MvcApplicationPartsAssemblyInfo.cs
+C:\Users\muska\Desktop\pt koulu\SI\projekti\for mickey\isGay\Simulation\WaterValve\obj\Debug\net10.0\WaterValve.MvcApplicationPartsAssemblyInfo.cache
+C:\Users\muska\Desktop\pt koulu\SI\projekti\for mickey\isGay\Simulation\WaterValve\obj\Debug\net10.0\WaterValve.sourcelink.json
+C:\Users\muska\Desktop\pt koulu\SI\projekti\for mickey\isGay\Simulation\WaterValve\obj\Debug\net10.0\rjimswa.dswa.cache.json
+C:\Users\muska\Desktop\pt koulu\SI\projekti\for mickey\isGay\Simulation\WaterValve\obj\Debug\net10.0\rjsmrazor.dswa.cache.json
+C:\Users\muska\Desktop\pt koulu\SI\projekti\for mickey\isGay\Simulation\WaterValve\obj\Debug\net10.0\rjsmcshtml.dswa.cache.json
+C:\Users\muska\Desktop\pt koulu\SI\projekti\for mickey\isGay\Simulation\WaterValve\obj\Debug\net10.0\scopedcss\bundle\WaterValve.styles.css
+C:\Users\muska\Desktop\pt koulu\SI\projekti\for mickey\isGay\Simulation\WaterValve\obj\Debug\net10.0\staticwebassets.build.json
+C:\Users\muska\Desktop\pt koulu\SI\projekti\for mickey\isGay\Simulation\WaterValve\obj\Debug\net10.0\staticwebassets.build.json.cache
+C:\Users\muska\Desktop\pt koulu\SI\projekti\for mickey\isGay\Simulation\WaterValve\obj\Debug\net10.0\staticwebassets.development.json
+C:\Users\muska\Desktop\pt koulu\SI\projekti\for mickey\isGay\Simulation\WaterValve\obj\Debug\net10.0\staticwebassets.build.endpoints.json
+C:\Users\muska\Desktop\pt koulu\SI\projekti\for mickey\isGay\Simulation\WaterValve\obj\Debug\net10.0\swae.build.ex.cache
+C:\Users\muska\Desktop\pt koulu\SI\projekti\for mickey\isGay\Simulation\WaterValve\obj\Debug\net10.0\WaterValve.csproj.Up2Date
+C:\Users\muska\Desktop\pt koulu\SI\projekti\for mickey\isGay\Simulation\WaterValve\obj\Debug\net10.0\WaterValve.dll
+C:\Users\muska\Desktop\pt koulu\SI\projekti\for mickey\isGay\Simulation\WaterValve\obj\Debug\net10.0\refint\WaterValve.dll
+C:\Users\muska\Desktop\pt koulu\SI\projekti\for mickey\isGay\Simulation\WaterValve\obj\Debug\net10.0\WaterValve.pdb
+C:\Users\muska\Desktop\pt koulu\SI\projekti\for mickey\isGay\Simulation\WaterValve\obj\Debug\net10.0\WaterValve.genruntimeconfig.cache
+C:\Users\muska\Desktop\pt koulu\SI\projekti\for mickey\isGay\Simulation\WaterValve\obj\Debug\net10.0\ref\WaterValve.dll

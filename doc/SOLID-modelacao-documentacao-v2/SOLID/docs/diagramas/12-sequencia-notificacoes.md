@@ -1,0 +1,33 @@
+# 12 — Contrato e caminhos de notificação
+
+**Estado: [PROPOSTA], não implementação.**
+
+```mermaid
+sequenceDiagram
+    autonumber
+    participant App as ResourceApplicationService
+    participant DB as SQLite
+    participant Notify as NotificationCoordinator
+    participant Http as HTTP Adapter
+    participant Mqtt as MQTT Adapter
+    participant Broker as MQTT Broker
+    participant Target as External Subscriber
+    App->>DB: Persistir data-record
+    DB-->>App: COMMIT OK
+    App->>Notify: Evento + snapshot do record + full path
+    Notify->>DB: Localizar subscriptions do canal com evt correto
+    DB-->>Notify: Lista de subscriptions
+    loop Cada subscription
+      alt endpoint HTTP URL
+        Notify->>Http: NotificationDto e URL
+        Http->>Target: HTTP POST JSON
+      else endpoint MQTT broker
+        Notify->>Mqtt: Broker URI + topico derivado do canal
+        Mqtt->>Broker: PUBLISH topico api/solid/app/channel
+        Broker->>Target: Entregar evento
+      end
+    end
+    Note over Notify,Target: Reintentos QoS e falhas: questao Q-13 aberta
+```
+
+A **forma de distinguir** HTTP e MQTT a partir de `endpoint` (sem propriedade pública adicional) continua por acordar. O tópico MQTT é derivado do caminho do canal, e não guardado em `endpoint`. A entrega após commit não implica outbox ou garantia contra perda em crash; consultar `../07-notificacoes-e-expiracao.md`.

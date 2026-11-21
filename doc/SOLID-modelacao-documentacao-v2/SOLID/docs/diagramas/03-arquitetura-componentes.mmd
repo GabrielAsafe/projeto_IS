@@ -1,0 +1,29 @@
+flowchart TB
+    Sensor[Moisture Sensor App] -->|REST POST 1/s| REST
+    Other[Outros clientes] -->|HTTP JSON| REST
+    subgraph MW[Middleware SOLID .NET 10 - um processo modular]
+      REST[Camada API - rotas /api/solid, DTOs, Swagger]
+      Resource[ResourceApplicationService]
+      Discovery[DiscoveryService]
+      Expiration[ExpirationWorker]
+      Outbox[NotificationCoordinator - apos persistencia]
+      Repo[Interfaces repositório / unidade de trabalho]
+      Persist[SQLite repositories]
+      HTTP[HTTP notification adapter]
+      MQTT[MQTT notification adapter]
+      REST --> Resource
+      REST --> Discovery
+      Resource --> Repo
+      Discovery --> Repo
+      Expiration --> Resource
+      Repo --> Persist
+      Persist --> DB[(SQLite)]
+      Resource -.->|evento pos commit| Outbox
+      Outbox --> HTTP
+      Outbox --> MQTT
+    end
+    HTTP -->|HTTP POST| Valve[Water Valve App]
+    MQTT -->|publish| Broker[MQTT Broker]
+    Broker -->|push| Valve
+    Valve --> XML[Registo XML validado com XSD]
+    REST --> Swagger[Swagger / OpenAPI]

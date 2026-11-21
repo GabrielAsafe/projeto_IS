@@ -1,0 +1,7 @@
+<Solution>
+  <Folder Name="/Simulation/">
+    <Project Path="Simulation/MoistureSensor/MoistureSensor.csproj" />
+    <Project Path="Simulation/WaterValve/WaterValve.csproj" />
+  </Folder>
+  <Project Path="middleware/middleware.csproj" />
+</Solution>

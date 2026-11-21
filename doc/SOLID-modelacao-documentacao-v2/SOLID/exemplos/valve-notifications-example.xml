@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<notifications>
+  <notification>
+    <event>creation</event>
+    <resourcePath>/api/solid/app1/channel1/dr1</resourcePath>
+    <receivedAt>2026-10-27T08:00:01Z</receivedAt>
+    <humidity>45</humidity>
+    <rawPayload>{"event":"creation","resource-path":"/api/solid/app1/channel1/dr1"}</rawPayload>
+  </notification>
+</notifications>

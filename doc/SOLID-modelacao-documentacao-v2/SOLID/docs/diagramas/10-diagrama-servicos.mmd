@@ -1,0 +1,51 @@
+classDiagram
+    direction LR
+    class SolidResourceController {
+        +Post(path, json)
+        +Get(path, discoveryHeader)
+        +Put(path, json)
+        +Delete(path)
+    }
+    class CreateDtoResolver {
+        +Resolve(resType, json)
+    }
+    class ResourceApplicationService {
+        +Create(parentPath, dto)
+        +Retrieve(targetPath)
+        +Update(targetPath, dto)
+        +Delete(targetPath)
+    }
+    class DiscoveryService {
+        +Discover(scopePath, resType)
+    }
+    class IResourceRepository {
+        <<interface>>
+        +Find(path)
+        +Create(resource)
+        +Delete(resource)
+        +FindDescendants(scope, type)
+    }
+    class NotificationCoordinator {
+        +OnRecordCreated(record)
+        +OnRecordDeleted(record)
+    }
+    class INotificationTransport {
+        <<interface>>
+        +Send(subscription, event)
+    }
+    class HttpNotificationAdapter
+    class MqttNotificationAdapter
+    class ExpirationWorker {
+        +ExecuteAsync()
+    }
+    SolidResourceController --> CreateDtoResolver
+    SolidResourceController --> ResourceApplicationService
+    SolidResourceController --> DiscoveryService
+    ResourceApplicationService --> IResourceRepository
+    DiscoveryService --> IResourceRepository
+    ResourceApplicationService ..> NotificationCoordinator
+    NotificationCoordinator --> IResourceRepository
+    NotificationCoordinator --> INotificationTransport
+    HttpNotificationAdapter ..|> INotificationTransport
+    MqttNotificationAdapter ..|> INotificationTransport
+    ExpirationWorker --> ResourceApplicationService

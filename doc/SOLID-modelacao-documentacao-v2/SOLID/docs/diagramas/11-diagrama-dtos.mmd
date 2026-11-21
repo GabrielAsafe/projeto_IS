@@ -1,0 +1,52 @@
+classDiagram
+    direction TB
+    class CreateResourceEnvelope {
+        +string ResourceType
+    }
+    class CreateApplicationDto {
+        +string ResourceType
+        +string? ResourceName
+        +string ResourceDesc
+    }
+    class CreateChannelDto {
+        +string ResourceType
+        +string? ResourceName
+        +string ResourceDesc
+    }
+    class CreateDataRecordDto {
+        +string ResourceType
+        +string? ResourceName
+        +string ContentType
+        +string Content
+        +DateTime? Expiration
+    }
+    class CreateSubscriptionDto {
+        +string ResourceType
+        +string? ResourceName
+        +int EventType
+        +string Endpoint
+        +DateTime? Expiration
+    }
+    class ResourceResponseDto {
+        +string ResourceType
+        +string ResourceName
+        +DateTime CreationDate
+    }
+    class NotificationDto {
+        +string Event
+        +string ResourcePath
+        +DataRecordResponseDto DataRecord
+    }
+    class DtoResolver {
+        +Resolve(envelope, json)
+    }
+    class DtoMapper {
+        +ToResponse(domainObject)
+    }
+    DtoResolver --> CreateResourceEnvelope
+    DtoResolver ..> CreateApplicationDto
+    DtoResolver ..> CreateChannelDto
+    DtoResolver ..> CreateDataRecordDto
+    DtoResolver ..> CreateSubscriptionDto
+    DtoMapper --> ResourceResponseDto
+    NotificationDto --> ResourceResponseDto : embeds record projection

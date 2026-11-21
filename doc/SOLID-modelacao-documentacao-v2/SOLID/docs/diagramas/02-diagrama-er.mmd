@@ -1,0 +1,35 @@
+erDiagram
+    APPLICATIONS ||--o{ CHANNELS : contains
+    CHANNELS ||--o{ DATA_RECORDS : contains
+    CHANNELS ||--o{ SUBSCRIPTIONS : contains
+    APPLICATIONS {
+        integer id PK
+        string resource_name UK
+        string resource_desc
+        string created_at
+    }
+    CHANNELS {
+        integer id PK
+        integer application_id FK
+        string resource_name
+        string resource_desc
+        string created_at
+    }
+    DATA_RECORDS {
+        integer id PK
+        integer channel_id FK
+        string resource_name
+        string content_type
+        string content
+        string created_at
+        string expires_at
+    }
+    SUBSCRIPTIONS {
+        integer id PK
+        integer channel_id FK
+        string resource_name
+        integer evt
+        string endpoint
+        string created_at
+        string expires_at
+    }
