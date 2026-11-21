@@ -1,41 +1,37 @@
-var builder = WebApplication.CreateBuilder(args);
+using WaterValve;
 
-// Add services to the container.
-// Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
+var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddOpenApi();
+
+// Register services
+builder.Services.AddSingleton<ValveService>(sp =>
+    new ValveService { Threshold = 40 });
+
+builder.Services.AddSingleton<XmlNotificationStorage>(sp =>
+{
+    var xmlPath = Path.Combine(AppContext.BaseDirectory, "notifications.xml");
+    // XSD sijaitsee Schemas-kansiossa projektin juuressa
+    var xsdPath = Path.GetFullPath(
+        Path.Combine(AppContext.BaseDirectory,
+        "..", "..", "..", "..", "Schemas", "notifications.xsd"));
+    return new XmlNotificationStorage(xmlPath, xsdPath);
+});
 
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
-{
     app.MapOpenApi();
-}
 
-app.UseHttpsRedirection();
-
-var summaries = new[]
+// The middleware sends notifications to this endpoint.
+app.MapPost("/notify", async (HttpContext ctx,
+                               ValveService valve,
+                               XmlNotificationStorage storage) =>
 {
-    "Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching"
-};
+    await NotificationHandler.HandleAsync(ctx, valve, storage);
+});
 
-app.MapGet("/weatherforecast", () =>
-{
-    var forecast =  Enumerable.Range(1, 5).Select(index =>
-        new WeatherForecast
-        (
-            DateOnly.FromDateTime(DateTime.Now.AddDays(index)),
-            Random.Shared.Next(-20, 55),
-            summaries[Random.Shared.Next(summaries.Length)]
-        ))
-        .ToArray();
-    return forecast;
-})
-.WithName("GetWeatherForecast");
+// Status endpoint for testing purposes
+app.MapGet("/status", (ValveService valve) =>
+    Results.Ok(new { valveOpen = valve.IsOpen, threshold = valve.Threshold }));
 
 app.Run();
-
-record WeatherForecast(DateOnly Date, int TemperatureC, string? Summary)
-{
-    public int TemperatureF => 32 + (int)(TemperatureC / 0.5556);
-}
